@@ -19,12 +19,37 @@ Follow these instructions to set up and run the XC-Cup Ranker locally.
 ### Prerequisites
 
 - Python 3.10 or higher
-- `uv` for dependency management (recommended)
-- Alternatively, `virtualenv` or `conda` for manual setup
+- `uv` for dependency management
+- Recommended: [Nix](https://nixos.org) (with flakes) + [direnv](https://direnv.net) for a fully reproducible environment that also pins `firefox` + `geckodriver` (needed by the scraper)
 
 ### Installation
 
-#### Using `uv` (Recommended)
+#### Using Nix + direnv (Recommended)
+
+This is the easiest path — Nix provides Python, Firefox, geckodriver and dev tools; direnv activates everything automatically on `cd`; the `.venv` handles Python packages.
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/ruben-hutter/xc-cup-ranker.git
+   cd xc-cup-ranker
+   ```
+
+2. Authorize the direnv environment (only needed once):
+
+   ```bash
+   direnv allow
+   ```
+
+   On first run direnv will build the Nix shell (fetching Firefox and friends) and create a `.venv`.
+
+3. Install Python dependencies into the venv:
+
+   ```bash
+   uv sync   # or: pip install -r requirements.txt
+   ```
+
+#### Using `uv` (without Nix)
 
 1. Clone the repository:
 
@@ -46,6 +71,8 @@ Follow these instructions to set up and run the XC-Cup Ranker locally.
    ```bash
    uv sync
    ```
+
+   Note: you will need to install Firefox and [geckodriver](https://github.com/mozilla/geckodriver/releases) yourself and ensure both are on your `PATH`.
 
 #### Using `virtualenv` (Manual Setup)
 
@@ -80,20 +107,11 @@ Follow these instructions to set up and run the XC-Cup Ranker locally.
 
 ### Usage
 
-Run the script using one of the provided scripts for your platform:
+Run the script directly:
 
-- **Linux/macOS**:
-  ```bash
-  ./run.sh <event_id> [-y|--year <year>] [-v|--verbose] [--pdf]
-  ```
-- **Windows (CMD)**:
-  ```bash
-  run.bat <event_id> [-y|--year <year>] [-v|--verbose] [--pdf]
-  ```
-- **Windows (PowerShell)**:
-  ```bash
-  run.ps1 <event_id> [-y|--year <year>] [-v|--verbose] [--pdf]
-  ```
+```bash
+python main.py <event_id> [-y|--year <year>] [-v|--verbose] [--pdf]
+```
 
 Replace `<event_id>` with the event you want to rank. The optional `-y` or `--year` parameter defaults to the current year. Use `-v` or `--verbose` for additional output details and `--pdf` to generate a PDF report.
 
