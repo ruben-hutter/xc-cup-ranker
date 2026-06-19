@@ -105,6 +105,49 @@ This is the easiest path — Nix provides Python, Firefox, geckodriver and dev t
    pip install -r requirements.txt
    ```
 
+### Data Files
+
+The script must be run from the repository root, where it expects a `data/` directory with the following structure:
+
+```
+data/
+└── <year>/                       # e.g. 2024
+    ├── events.csv                # all events for the year
+    └── participants/
+        └── <event_id>.csv        # registered pilots for a given event
+```
+
+Only the files for the year (and event) you run are required.
+
+#### `events.csv`
+
+One row per event. The `<event_id>` passed on the command line selects the event **by row position** (1-based), so `python main.py 1` always picks the first data row regardless of the `id` column.
+
+```csv
+id,date,take-off-site
+1,2024-04-06,Monte Tamaro
+2,2024-05-18,Ponte Brolla
+```
+
+| Column | Description |
+|---|---|
+| `id` | Decorative only — not read by the code. |
+| `date` | Event date as `YYYY-MM-DD` (used to query XContest and to name the output file). |
+| `take-off-site` | Take-off site name; must match the site name returned by XContest. |
+
+#### `participants/<event_id>.csv`
+
+One row per registered pilot for the event identified by `<event_id>` (the same integer you pass on the CLI). The filename is the event id without padding (e.g. `1.csv`).
+
+```csv
+name
+Ruben Hutter
+Max Mustermann
+Jane Doe
+```
+
+> **Note:** Pilot names must match **exactly** the name returned by XContest, otherwise the corresponding flight won't be included in the ranking.
+
 ### Usage
 
 Run the script directly:

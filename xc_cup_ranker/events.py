@@ -16,7 +16,7 @@ def get_date_and_take_off_site(year: int, event_id: int) -> tuple[str, str] | No
 
     check_file_exists_and_not_empty(events_file)
 
-    with events_file.open(newline="") as f:
+    with events_file.open(newline="", encoding="utf-8-sig") as f:
         reader = csv.reader(f)
         next(reader)
         for i, row in enumerate(reader):

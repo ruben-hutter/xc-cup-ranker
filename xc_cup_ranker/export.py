@@ -21,13 +21,13 @@ def export_flights(
     """
     logger.info("Exporting flights to CSV...")
 
-    take_off_site = take_off_site.replace(" ", "_").lower()
+    take_off_site_slug = take_off_site.replace(" ", "_").lower()
 
     # Create output folder if it doesn't exist
     output_path = OUTPUT_DIR / str(year)
     output_path.mkdir(parents=True, exist_ok=True)
 
-    file_path = output_path / f"{date}_{take_off_site}.csv"
+    file_path = output_path / f"{date}_{take_off_site_slug}.csv"
     with file_path.open("w", newline="") as f:
         writer = csv.writer(f)
         header = [

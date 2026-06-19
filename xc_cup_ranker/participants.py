@@ -17,7 +17,7 @@ def get_participants(year: int, event_id: int) -> set[str]:
 
     check_file_exists_and_not_empty(participants_file)
 
-    with participants_file.open(newline="") as f:
+    with participants_file.open(newline="", encoding="utf-8-sig") as f:
         logger.debug(f"Reading participants from {participants_file}")
         reader = csv.reader(f)
         next(reader)
